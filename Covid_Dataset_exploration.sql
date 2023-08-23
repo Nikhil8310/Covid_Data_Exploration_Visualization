@@ -41,6 +41,31 @@ IGNORE 1 LINES;
 SELECT * FROM coviddeaths;
 
 SELECT * FROM covidvaccinations;
+-- Total Cases and Deaths:
+
+-- Query the total number of confirmed cases and deaths globally or by location.
+-- Top 10 Location wise
+SELECT Location,max(total_cases) as Total_case,max(total_deaths) Total_death from coviddeaths  
+where location not in ("World","Europe","Asia","European Union","North America","South America") 
+GROUP BY location ORDER BY Total_case desc limit 10;
+-- Continent wise
+SELECT continent,max(total_cases) total_case,max(total_deaths) total_death from coviddeaths 
+Where continent is not null
+GROUP BY continent
+ORDER BY 2 Desc,3 Desc;
+
+
+-- Calculate the mortality rate (deaths divided by cases) for different continent.
+SELECT continent,max(total_cases) total_case ,max(total_deaths) total_death ,(max(total_deaths)/max(total_cases))*100 mortality_rate 
+FROM coviddeaths where continent is not null
+GROUP BY continent
+ORDER BY mortality_rate desc;
+
+
+-- Identify countries with the lowest total cases and deaths.
+SELECT location,max(total_cases) total_case,max(total_deaths) total_death from coviddeaths  
+where location not in ("World","Europe","Asia","European Union","North America","South America")
+GROUP BY location having Total_case is not null ORDER BY Total_case limit 10;
 
 -- Total Cases vs Total Deaths
 
